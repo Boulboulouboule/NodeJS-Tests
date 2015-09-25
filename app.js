@@ -8,7 +8,7 @@ var session = require('cookie-session'); //appel du middleware session
 // 3. Parcourir cette variable et afficher chaque items dans la vue
 // 4. Permettre l'ajout  et la suppression d'items dans cette variable en Session (routing)
 
-
+app.use(express.static(__dirname+'/public'));
 //création de la session
 app.use(session({
 	name: 'session',
@@ -16,7 +16,7 @@ app.use(session({
 }))
 
 .use(function(req, res, next){
-	if(!req.session.todolist){
+	if(req.session.todolist == undefined){
 		req.session.todolist = [];//1 + 2
 		console.log('Pas de req.session.todolist, on vient de la créer');
 		
@@ -24,12 +24,14 @@ app.use(session({
 		console.log('On a un req.session.todolist, on ne fait rien');
 
 	}
+
+	next()
 })
 
 .get('/', function(req, res){
-	res.render('views/layout.ejs', {todolist: req.session.todolist});
+	res.render('layout.ejs', {todolist: req.session.todolist});
 
-});
+})
 
-app.listen(3000);
+app.listen(8080);
 
