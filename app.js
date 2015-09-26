@@ -1,6 +1,12 @@
 var express = require('express'); // appel du framework express.js
 var app = express();
 var session = require('cookie-session'); //appel du middleware session
+var bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+	extended: true
+}))
 
 // Todolist :
 // 1. Définir une variable qui contiendra les items de la todo list
@@ -17,7 +23,7 @@ app.use(session({
 
 .use(function(req, res, next){
 	if(req.session.todolist == undefined){
-		req.session.todolist = [];//1 + 2
+		req.session.todolist = ["Variable"];//1 + 2
 		console.log('Pas de req.session.todolist, on vient de la créer');
 		
 	} else {
@@ -33,5 +39,14 @@ app.use(session({
 
 })
 
+.post('/add', bodyParser.urlencoded({ extended: false}), function(req, res){
+	req.session.todolist.push(req.body.task);
+	res.redirect('/');
+})
+
+.get('/remove/:id', function(req, res){
+	req.session.todolist.splice(req.params.id, 1);
+	res.redirect('/');
+});
 app.listen(8080);
 

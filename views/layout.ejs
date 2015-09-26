@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="bootstrap.css">
-	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/style.css">
 	<title>To Do List</title>
 </head>
 <body>
@@ -17,10 +17,21 @@
 		</ul>
 	</nav>
 	<div class="row">
-		<div class="container"></div>
+		<div class="container">
+			<ul>
+			<% for(var index in todolist){%>
+				<li><a href="/remove/<%=index%>"><i class="glyphicon glyphicon-trash"></i></a><span><%=todolist[index]%></span></li>
+			<%}%>
+
+			<form action="/add" class="form-group" method="post" >
+				<input type="text" class="form-control" name="task" placeholder="Nouvelle tache"/>
+				<br>
+				<input type="submit" class="btn btn-success">	
+			</form>
+		</div>
 	</div>
 </body>
 
-<script src="bootstrap.js"></script>
-<script src="jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/jquery.js"></script>
 </html>
